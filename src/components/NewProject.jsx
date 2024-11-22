@@ -1,12 +1,12 @@
 import {useRef} from "react";
 
-export default function NewProject({onCancelNewProject, onSetProject, hasError}) {
+export default function NewProject({onCancelNewProject, onSetProjects, hasError}) {
   const title = useRef();
   const description = useRef();
   const dueDate = useRef();
 
   function handleSave() {
-    onSetProject({
+    onSetProjects({
       title: title.current.value,
       description: description.current.value,
       dueDate: dueDate.current.value
