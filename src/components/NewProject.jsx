@@ -1,6 +1,6 @@
 import {useRef} from "react";
 
-export default function NewProject({onCancelNewProject, onSetProject}) {
+export default function NewProject({onCancelNewProject, onSetProject, hasError}) {
   const title = useRef();
   const description = useRef();
   const dueDate = useRef();
@@ -11,7 +11,6 @@ export default function NewProject({onCancelNewProject, onSetProject}) {
       description: description.current.value,
       dueDate: dueDate.current.value
     });
-    onCancelNewProject();
   }
 
   return (
@@ -30,6 +29,7 @@ export default function NewProject({onCancelNewProject, onSetProject}) {
           Save
         </button>
       </menu>
+      {hasError && <p>Project title must be unique!</p>}
       <p className="flex flex-col gap-1 my-4">
         <label className="text-sm font-bold uppercase text-stone-500">Title</label>
         <input
