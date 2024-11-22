@@ -1,6 +1,6 @@
 import {useState} from "react";
 import ProjectsSidebar from "./components/ProjectsSidebar.jsx";
-import NewProject from "./components/NewProject.jsx";
+import ProjectForm from "./components/ProjectForm.jsx";
 import NoProjectSelected from "./components/NoProjectSelected.jsx";
 import Project from "./components/Project.jsx";
 
@@ -43,7 +43,7 @@ function App() {
       <div className="w-[35rem] mt-16">
         {
           newProject ?
-            <NewProject onCancelNewProject={handleCancelNewProject}
+            <ProjectForm onCancelNewProject={handleCancelNewProject}
                         onSetProjects={project => handleSetProjects(project)}
                         hasError={hasError} /> :
             (
