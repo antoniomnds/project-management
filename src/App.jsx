@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useRef, useState} from "react";
 import ProjectsSidebar from "./components/ProjectsSidebar.jsx";
 import ProjectForm from "./components/ProjectForm.jsx";
 import NoProjectSelected from "./components/NoProjectSelected.jsx";
@@ -8,7 +8,7 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [hasError, setHasError] = useState(false)
+  const dialog = useRef();
 
   function handleNewProject() {
     setNewProject(true);
@@ -20,12 +20,11 @@ function App() {
 
   function handleSetProjects(project) {
     if (projects.findIndex(elem => elem.title === project.title) !== -1) {
-      setHasError(true);
+      dialog.current.open();
       return;
     }
     setProjects(prevProjects => [...prevProjects, project]);
     setNewProject(false);
-    setHasError(false);
   }
 
   function handleSelectProject(project) {
@@ -43,9 +42,10 @@ function App() {
       <div className="w-[35rem] mt-16">
         {
           newProject ?
-            <ProjectForm onCancelNewProject={handleCancelNewProject}
-                        onSetProjects={project => handleSetProjects(project)}
-                        hasError={hasError} /> :
+            <ProjectForm
+              ref={dialog}
+              onCancelNewProject={handleCancelNewProject}
+              onSetProjects={project => handleSetProjects(project)} /> :
             (
               selectedProject ?
                 <Project project={selectedProject} /> :
