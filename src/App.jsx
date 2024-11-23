@@ -31,6 +31,14 @@ function App() {
     setSelectedProject(project);
   }
 
+  function handleDeleteProject(project) {
+    setProjects(prevProjects => {
+      const idx = prevProjects.findIndex((proj) => proj.title === project.title);
+      return prevProjects.splice(idx, 1);
+    })
+    setSelectedProject(null);
+  }
+
   return (
     <main className="h-screen my-8 flex gap-8">
       <ProjectsSidebar
@@ -48,7 +56,7 @@ function App() {
               onSetProjects={project => handleSetProjects(project)} /> :
             (
               selectedProject ?
-                <Project project={selectedProject} /> :
+                <Project project={selectedProject} onDelete={handleDeleteProject} /> :
                 <NoProjectSelected onNewProject={handleNewProject}/>
             )
         }
