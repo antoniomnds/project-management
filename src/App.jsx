@@ -19,7 +19,12 @@ function App() {
   }
 
   function handleSetProjects(project) {
-    if (projects.findIndex(elem => elem.title === project.title) !== -1) {
+    if (
+      projects.findIndex(elem => elem.title === project.title) !== -1 ||
+      !project.title ||
+      !project.description ||
+      !project.dueDate
+    ) {
       dialog.current.open();
       return;
     }
