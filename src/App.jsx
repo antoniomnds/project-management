@@ -1,8 +1,8 @@
 import {useRef, useState} from "react";
 import ProjectsSidebar from "./components/ProjectsSidebar.jsx";
-import ProjectForm from "./components/ProjectForm.jsx";
-import NoProjectSelected from "./components/NoProjectSelected.jsx";
-import Project from "./components/Project.jsx";
+import NewProject from "./components/Project/NewProject.jsx";
+import NoProjectSelected from "./components/Project/NoProjectSelected.jsx";
+import Project from "./components/Project/Project.jsx";
 
 function App() {
   const [projects, setProjects] = useState([]);
@@ -55,7 +55,7 @@ function App() {
       <div className="w-[35rem] mt-16">
         {
           newProject ?
-            <ProjectForm
+            <NewProject
               ref={dialog}
               onCancelNewProject={handleCancelNewProject}
               onSetProjects={project => handleSetProjects(project)} /> :

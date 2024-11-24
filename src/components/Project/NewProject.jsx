@@ -1,8 +1,8 @@
 import {useRef, forwardRef} from "react";
-import Input from "./Input.jsx";
+import Input from "../Input.jsx";
 import ProjectError from "./ProjectError.jsx";
 
-const ProjectForm =
+const NewProject =
   forwardRef(
     function ProjectForm({onCancelNewProject, onSetProjects},  ref) {
       const title = useRef();
@@ -13,7 +13,8 @@ const ProjectForm =
         onSetProjects({
           title: title.current.value,
           description: description.current.value,
-          dueDate: dueDate.current.value
+          dueDate: dueDate.current.value,
+          tasks: []
         });
       }
 
@@ -42,4 +43,4 @@ const ProjectForm =
     }
   );
 
-export default ProjectForm;
+export default NewProject;
