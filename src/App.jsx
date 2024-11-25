@@ -30,6 +30,7 @@ function App() {
     }
     setProjects(prevProjects => [...prevProjects, project]);
     setNewProject(false);
+    setSelectedProject(null);
   }
 
   function handleSelectProject(project) {
@@ -40,7 +41,7 @@ function App() {
     setProjects(prevProjects => {
       const newProjects = [...prevProjects];
       const idx = newProjects.findIndex((proj) => proj.title === project.title);
-      newProjects.splice(idx, 1)
+      newProjects.splice(idx, 1);
       return newProjects;
     })
     setSelectedProject(null);
