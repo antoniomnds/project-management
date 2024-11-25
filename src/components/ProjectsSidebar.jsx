@@ -1,4 +1,4 @@
-export default function ProjectsSidebar({onNewProject, projects, selectedProject, onSelectProject}) {
+export default function ProjectsSidebar({onNewProject, projectState, onSelectProject}) {
   let projectButtonClassName = "w-full text-left px-2 py-1 rounded-sm my-1 hover:text-stone-200 hover:bg-stone-800";
 
   return (
@@ -11,14 +11,15 @@ export default function ProjectsSidebar({onNewProject, projects, selectedProject
         + Add Project
       </button>
       <ul className="mt-8">
-        {projects && projects.map(project => (
-          <button
-            key={project.title}
-            className={`${projectButtonClassName} ${project === selectedProject ? 'bg-stone-800' : ''}`}
-            onClick={() => onSelectProject(project)}
-          >
-            {project.title}
-          </button>
+        {projectState.projects.length > 0 && projectState.projects.map(project => (
+          <li key={project.title}>
+            <button
+              className={`${projectButtonClassName} ${project === projectState.selectedProject ? 'bg-stone-800' : ''}`}
+              onClick={() => onSelectProject(project)}
+            >
+              {project.title}
+            </button>
+          </li>
         ))}
       </ul>
     </aside>
