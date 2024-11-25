@@ -5,22 +5,29 @@ import NoProjectSelected from "./components/Project/NoProjectSelected.jsx";
 import Project from "./components/Project/Project.jsx";
 
 function App() {
-  const [projects, setProjects] = useState([]);
-  const [newProject, setNewProject] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [projectState, setProjectState] = useState({
+    selectedProject: undefined, // undefined if not adding a new project or selected a project; null if adding a new project
+    projects: []
+  });
   const dialog = useRef();
 
   function handleNewProject() {
-    setNewProject(true);
+    setProjectState(prevState => ({
+      ...prevState,
+      selectedProject: null
+    }));
   }
 
   function handleCancelNewProject() {
-    setNewProject(false);
+    setProjectState(prevState => ({
+      ...prevState,
+      selectedProject: undefined
+    }));
   }
 
   function handleCreateProject(project) {
     if (
-      projects.findIndex(elem => elem.title === project.title) !== -1 ||
+      projectState.projects.findIndex(elem => elem.title === project.title) !== -1 ||
       !project.title ||
       !project.description ||
       !project.dueDate
@@ -28,43 +35,49 @@ function App() {
       dialog.current.open();
       return;
     }
-    setProjects(prevProjects => [...prevProjects, project]);
-    setNewProject(false);
-    setSelectedProject(null);
+    setProjectState(prevState => ({
+      selectedProject: undefined,
+      projects: [...prevState.projects, project],
+    }))
   }
 
   function handleSelectProject(project) {
-    setSelectedProject(project);
+    setProjectState(prevState => ({
+      ...prevState,
+      selectedProject: project
+    }));
   }
 
   function handleDeleteProject(project) {
-    setProjects(prevProjects => {
-      const newProjects = [...prevProjects];
+    setProjectState(prevState => {
+      const newProjects = [...(prevState.projects)];
       const idx = newProjects.findIndex((proj) => proj.title === project.title);
       newProjects.splice(idx, 1);
-      return newProjects;
-    })
-    setSelectedProject(null);
+
+      return {
+        selectedProject: null,
+        projects: newProjects
+      }
+    });
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
       <ProjectsSidebar
         onNewProject={handleNewProject}
-        projects={projects}
-        selectedProject={selectedProject}
+        projectState={projectState}
         onSelectProject={handleSelectProject}
       />
       {
-        newProject ?
+        projectState.selectedProject === null ?
           <NewProject
             ref={dialog}
             onCancelNewProject={handleCancelNewProject}
             onCreateProject={project => handleCreateProject(project)} /> :
           (
-            selectedProject ?
-              <Project project={selectedProject} onDelete={handleDeleteProject} /> :
-              <NoProjectSelected onNewProject={handleNewProject}/>
+            projectState.selectedProject === undefined ?
+              <NoProjectSelected onNewProject={handleNewProject}/> :
+              <Project project={projectState.selectedProject} onDelete={handleDeleteProject} />
           )
       }
     </main>
