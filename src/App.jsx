@@ -18,7 +18,7 @@ function App() {
     setNewProject(false);
   }
 
-  function handleSetProjects(project) {
+  function handleCreateProject(project) {
     if (
       projects.findIndex(elem => elem.title === project.title) !== -1 ||
       !project.title ||
@@ -38,8 +38,10 @@ function App() {
 
   function handleDeleteProject(project) {
     setProjects(prevProjects => {
-      const idx = prevProjects.findIndex((proj) => proj.title === project.title);
-      return prevProjects.splice(idx, 1);
+      const newProjects = [...prevProjects];
+      const idx = newProjects.findIndex((proj) => proj.title === project.title);
+      newProjects.splice(idx, 1)
+      return newProjects;
     })
     setSelectedProject(null);
   }
@@ -58,7 +60,7 @@ function App() {
             <NewProject
               ref={dialog}
               onCancelNewProject={handleCancelNewProject}
-              onSetProjects={project => handleSetProjects(project)} /> :
+              onCreateProject={project => handleCreateProject(project)} /> :
             (
               selectedProject ?
                 <Project project={selectedProject} onDelete={handleDeleteProject} /> :

@@ -4,13 +4,13 @@ import ProjectError from "./ProjectError.jsx";
 
 const NewProject =
   forwardRef(
-    function ProjectForm({onCancelNewProject, onSetProjects},  ref) {
+    function ProjectForm({onCancelNewProject, onCreateProject},  ref) {
       const title = useRef();
       const description = useRef();
       const dueDate = useRef();
 
       function handleSave() {
-        onSetProjects({
+        onCreateProject({
           title: title.current.value,
           description: description.current.value,
           dueDate: dueDate.current.value,
