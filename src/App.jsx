@@ -55,20 +55,18 @@ function App() {
         selectedProject={selectedProject}
         onSelectProject={handleSelectProject}
       />
-      <div className="w-[35rem] mt-16">
-        {
-          newProject ?
-            <NewProject
-              ref={dialog}
-              onCancelNewProject={handleCancelNewProject}
-              onCreateProject={project => handleCreateProject(project)} /> :
-            (
-              selectedProject ?
-                <Project project={selectedProject} onDelete={handleDeleteProject} /> :
-                <NoProjectSelected onNewProject={handleNewProject}/>
-            )
-        }
-      </div>
+      {
+        newProject ?
+          <NewProject
+            ref={dialog}
+            onCancelNewProject={handleCancelNewProject}
+            onCreateProject={project => handleCreateProject(project)} /> :
+          (
+            selectedProject ?
+              <Project project={selectedProject} onDelete={handleDeleteProject} /> :
+              <NoProjectSelected onNewProject={handleNewProject}/>
+          )
+      }
     </main>
   );
 }
