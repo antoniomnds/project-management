@@ -1,4 +1,7 @@
 export function dateFormatter(dateString) {
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat('pt-PT').format(date);
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
 }
