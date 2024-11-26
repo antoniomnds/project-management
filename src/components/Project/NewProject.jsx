@@ -1,12 +1,12 @@
 import {useRef} from "react";
 import Input from "../Input.jsx";
-import ProjectError from "./ProjectError.jsx";
+import Modal from "../Modal.jsx";
 
 export default function NewProject({onCancelNewProject, onCreateProject}) {
   const title = useRef();
   const description = useRef();
   const dueDate = useRef();
-  const dialog = useRef();
+  const modal = useRef();
 
   function handleSave() {
     const enteredTitle = title.current.value;
@@ -14,7 +14,7 @@ export default function NewProject({onCancelNewProject, onCreateProject}) {
     const enteredDueDate = dueDate.current.value;
 
     if (enteredTitle.trim() === '' || enteredDescription.trim() === '' || enteredDueDate.trim() === '') {
-      dialog.current.open();
+      modal.current.open();
       return;
     }
 
@@ -47,9 +47,17 @@ export default function NewProject({onCancelNewProject, onCreateProject}) {
           </button>
         </li>
       </menu>
-      <ProjectError ref={dialog}/>
+      <Modal ref={modal} buttonCaption="OK">
+        <h2 className="text-xl font-bold text-stone-700 my-4">Invalid Input</h2>
+        <p className="text-stone-600 mb-4">
+          Oops... looks like tou forgot to enter a value.
+        </p>
+        <p className="text-stone-600 mb-4">
+          Please make sure you provide a valid value for every input field.
+        </p>
+      </Modal>
       <div>
-        <Input ref={title} label="Title" type="text"/>
+      <Input ref={title} label="Title" type="text"/>
         <Input ref={description} textarea label="Description" type="text"/>
         <Input ref={dueDate} label="Due Date" type="date"/>
       </div>
