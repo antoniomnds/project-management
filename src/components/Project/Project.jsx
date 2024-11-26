@@ -6,10 +6,6 @@ import Tasks from "./Task/Tasks.jsx";
 export default function Project({project, onDelete}) {
   const [, setTasks] = useState([...project.tasks]);
 
-  function handleDeleteProject() {
-    onDelete(project);
-  }
-
   function handleAddTask(content) {
     const task = {
       id: project.tasks.length + 1,
@@ -38,7 +34,7 @@ export default function Project({project, onDelete}) {
           </h1>
           <button
             className="text-stone-600 hover:text-stone-950"
-            onClick={handleDeleteProject}
+            onClick={onDelete}
           >
             Delete
           </button>

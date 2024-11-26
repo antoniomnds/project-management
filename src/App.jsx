@@ -38,15 +38,12 @@ function App() {
     }));
   }
 
-  function handleDeleteProject(project) {
+  // the project to delete is the previously selected project
+  function handleDeleteProject() {
     setProjectState(prevState => {
-      const newProjects = [...(prevState.projects)];
-      const idx = newProjects.findIndex((proj) => proj.title === project.title);
-      newProjects.splice(idx, 1);
-
       return {
-        selectedProjectId: null,
-        projects: newProjects
+        selectedProjectId: undefined,
+        projects: prevState.projects.filter(project => project.id !== prevState.selectedProjectId)
       }
     });
   }
