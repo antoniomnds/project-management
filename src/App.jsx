@@ -6,35 +6,35 @@ import Project from "./components/Project/Project.jsx";
 
 function App() {
   const [projectState, setProjectState] = useState({
-    selectedProject: undefined, // undefined if not adding a new project or selected a project; null if adding a new project
+    selectedProjectId: undefined, // undefined if not adding a new project or selected a project; null if adding a new project
     projects: []
   });
 
   function handleNewProject() {
     setProjectState(prevState => ({
       ...prevState,
-      selectedProject: null
+      selectedProjectId: null
     }));
   }
 
   function handleCancelNewProject() {
     setProjectState(prevState => ({
       ...prevState,
-      selectedProject: undefined
+      selectedProjectId: undefined
     }));
   }
 
   function handleCreateProject(project) {
     setProjectState(prevState => ({
-      selectedProject: project,
+      selectedProjectId: project.id,
       projects: [...prevState.projects, project],
     }))
   }
 
-  function handleSelectProject(project) {
+  function handleSelectProject(projectId) {
     setProjectState(prevState => ({
       ...prevState,
-      selectedProject: project
+      selectedProjectId: projectId
     }));
   }
 
@@ -45,28 +45,31 @@ function App() {
       newProjects.splice(idx, 1);
 
       return {
-        selectedProject: null,
+        selectedProjectId: null,
         projects: newProjects
       }
     });
   }
 
+  const selectedProject = projectState.projects.find(elem => elem.id === projectState.selectedProjectId);
+
   return (
     <main className="h-screen my-8 flex gap-8">
       <ProjectsSidebar
         onNewProject={handleNewProject}
-        projectState={projectState}
+        projects={projectState.projects}
+        selectedProjectId={projectState.selectedProjectId}
         onSelectProject={handleSelectProject}
       />
       {
-        projectState.selectedProject === null ?
+        projectState.selectedProjectId === null ?
           <NewProject
             onCancelNewProject={handleCancelNewProject}
-            onCreateProject={project => handleCreateProject(project)} /> :
+            onCreateProject={handleCreateProject} /> :
           (
-            projectState.selectedProject === undefined ?
+            projectState.selectedProjectId === undefined ?
               <NoProjectSelected onNewProject={handleNewProject}/> :
-              <Project project={projectState.selectedProject} onDelete={handleDeleteProject} />
+              <Project project={selectedProject} onDelete={handleDeleteProject} />
           )
       }
     </main>
