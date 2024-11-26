@@ -7,20 +7,15 @@ export default function Tasks({project}) {
 
   function handleAddTask(content) {
     const task = {
-      id: project.tasks.length + 1,
+      id: crypto.randomUUID(),
       content: content
     };
     project.tasks.push(task);
     setTasks([...project.tasks]);
   }
 
-  function handleRemoveTask(task) {
-    const idx = project.tasks.findIndex((elem) => elem.content === task.content);
-    project.tasks.splice(idx, 1);
-    // reassign IDs so they are contiguous, which avoids the need for a global counter for the ID
-    for (let i = idx; i < project.tasks.length; i++) {
-      project.tasks[i].id = i + 1;
-    }
+  function handleRemoveTask(id) {
+    project.tasks = project.tasks.filter(task => task.id !== id);
     setTasks([...project.tasks])
   }
 
@@ -33,7 +28,7 @@ export default function Tasks({project}) {
           <ul className="p-4 mt-8 rounded-md bg-stone-100">
             {project.tasks.map(task => (
               <li key={task.id} className="flex justify-between my-4">
-                <Task task={task} onRemove={task => handleRemoveTask(task)}/>
+                <Task task={task} onRemove={() => handleRemoveTask(task.id)}/>
               </li>
             ))}
           </ul> :
