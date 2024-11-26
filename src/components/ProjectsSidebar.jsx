@@ -11,7 +11,7 @@ export default function ProjectsSidebar({onNewProject, projectState, onSelectPro
       </Button>
       <ul className="mt-8">
         {projectState.projects.length > 0 && projectState.projects.map(project => (
-          <li key={project.title}>
+          <li key={project.id}>
             <button
               className={`${projectButtonClassName} ${project === projectState.selectedProject ? 'bg-stone-800' : ''}`}
               onClick={() => onSelectProject(project)}

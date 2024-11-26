@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import {useState} from "react";
 import ProjectsSidebar from "./components/ProjectsSidebar.jsx";
 import NewProject from "./components/Project/NewProject.jsx";
 import NoProjectSelected from "./components/Project/NoProjectSelected.jsx";
@@ -9,7 +9,6 @@ function App() {
     selectedProject: undefined, // undefined if not adding a new project or selected a project; null if adding a new project
     projects: []
   });
-  const dialog = useRef();
 
   function handleNewProject() {
     setProjectState(prevState => ({
@@ -26,17 +25,8 @@ function App() {
   }
 
   function handleCreateProject(project) {
-    if (
-      projectState.projects.findIndex(elem => elem.title === project.title) !== -1 ||
-      !project.title ||
-      !project.description ||
-      !project.dueDate
-    ) {
-      dialog.current.open();
-      return;
-    }
     setProjectState(prevState => ({
-      selectedProject: undefined,
+      selectedProject: project,
       projects: [...prevState.projects, project],
     }))
   }
@@ -71,7 +61,6 @@ function App() {
       {
         projectState.selectedProject === null ?
           <NewProject
-            ref={dialog}
             onCancelNewProject={handleCancelNewProject}
             onCreateProject={project => handleCreateProject(project)} /> :
           (
