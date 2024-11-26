@@ -1,18 +1,24 @@
-import {useRef} from "react";
+import {useState} from "react";
 
 export default function NewTask({onAddTask}) {
-  const task = useRef();
+  const [enteredTask, setEnteredTask] = useState('');
+
+  function handleChange(event) {
+    setEnteredTask(event.target.value);
+  }
 
   function handleClick() {
-    onAddTask(task.current.value);
-    task.current.value = "";
+    onAddTask(enteredTask);
+    setEnteredTask('');
   }
 
   return (
     <div className="flex items-center gap-4">
       <input
-        ref={task}
         className="w-64 px-2 py-1 rounded-sm bg-stone-200"
+        type="text"
+        onChange={handleChange}
+        value={enteredTask}
       />
       <button
         className="text-stone-700 hover:text-stone-950"
